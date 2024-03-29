@@ -3,7 +3,6 @@ package NoticeBoard;
 public class User {
 	private String id;
 	private String passWord;
-	private boolean authorized;
 
 	public User() {
 
@@ -16,7 +15,6 @@ public class User {
 
 	public User clone() {
 		User user = new User(this.id, this.passWord);
-		user.setAuthorized(this.authorized);
 		return user;
 	}
 
@@ -32,21 +30,7 @@ public class User {
 		return passWord;
 	}
 
-	public void setPw(String passWord) {
+	public void setgetPassWord(String passWord) {
 		this.passWord = passWord;
-	}
-
-	public boolean isAuthorized() {
-		return authorized;
-	}
-
-	public void setAuthorized(boolean authorized) {
-		this.authorized = authorized;
-	}
-
-	@Override
-	public String toString() {
-		String info = String.format("");
-		return info;
 	}
 }
