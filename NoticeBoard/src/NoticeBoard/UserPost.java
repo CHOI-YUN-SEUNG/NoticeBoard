@@ -11,4 +11,9 @@ public class UserPost extends Post{
 	public RegisteredUser getAuthor() {
 		return author;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("제목: %s\n" + "내용: %s"+ "\n작성자: %s\n" , getTitle(), getContent(), this.author.getId());
+	}
 }
