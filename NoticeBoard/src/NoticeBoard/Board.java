@@ -8,9 +8,11 @@ public class Board {
 	private Scanner scanner;
 	private UserManager userManager;
 	private PostManager postManager;
+	private String nowUser;
 	private boolean isRun;
 
 	public Board() {
+		nowUser = "";
 		isRun = true;
 		scanner = new Scanner(System.in);
 		userManager = new UserManager();
@@ -18,7 +20,6 @@ public class Board {
 	}
 
 	public void run() {
-
 		while (isRun) {
 			printMenu();
 			int choice = inputNumber("선택 ");
@@ -74,13 +75,13 @@ public class Board {
 			unregisterUser();
 			break;
 		case 5:
-			viewBoards(postManager);
+			viewBoards();
 			break;
 		case 6:
-			writePost(scanner, userManager, postManager);
+			writePost();
 			break;
 		case 7:
-			myPage(scanner, userManager, postManager);
+			myPage();
 			break;
 		case 0:
 			System.out.println("프로그램을 종료합니다.");
@@ -116,6 +117,7 @@ public class Board {
 		RegisteredUser user = userManager.getUser(id);
 		if (user != null && user.getPassWord().equals(password)) {
 			userManager.setLoggedIn(true);
+			nowUser = id;
 			System.out.println("로그인 성공! " + id + "님 환영합니다.");
 		} else {
 			System.out.println("로그인 실패! 사용자 이름 또는 비밀번호를 확인하세요.");
@@ -123,9 +125,9 @@ public class Board {
 	}
 
 	private void logout() {
-		System.out.println("\n===== 로그아웃 =====");
 		if (userManager.isLoggedIn()) {
 			userManager.setLoggedIn(false);
+			nowUser = "";
 			System.out.println("로그아웃 되었습니다.");
 		} else {
 			System.out.println("이미 로그아웃 상태입니다.");
@@ -134,26 +136,36 @@ public class Board {
 
 	private void unregisterUser() {
 		System.out.println("\n===== 회원탈퇴 =====");
-		String id = inputString("사용자 ID");
-		String password = inputString("사용자 PW");
-		User user = userManager.getUser(id);
-		if (user != null && user.getPassWord().equals(password)) {
-			userManager.removeUser(id);
-			System.out.println("회원탈퇴가 완료되었습니다.");
-		} else {
-			System.out.println("존재하지 않는 사용자입니다.");
-		}
+		if (userManager.isLoggedIn()) {
+			String password = inputString("사용자 PW");
+			User user = userManager.getUser(nowUser);
+			if (user != null && user.getPassWord().equals(password)) {
+				userManager.removeUser(nowUser);
+				System.out.println("회원탈퇴가 완료되었습니다.");
+				logout();
+			} else
+				System.out.println("잘못된 비밀번호입니다. 탈퇴를 취소합니다");
+		} else
+			System.out.println("로그인이 필요합니다");
 	}
 
-	private void myPage(Scanner scanner2, UserManager userManager2, PostManager postManager2) {
+	private void viewBoards() {
+		System.out.println("\n===== 게시글 조회 =====");
+		HashMap<String, UserPost> boards = postManager.getPosts();
+		if (postManager.getCount() > 0) {
+			for (Map.Entry<String, UserPost> entry : boards.entrySet()) {
+				System.out.println("제목: " + entry.getKey() + ", 내용: " + entry.getValue().getContent() + ", 작성자: "
+						+ entry.getValue().getAuthor().getId());
+			}
+		} else
+			System.out.println("게시글이 없습니다.");
+	}
+
+	private void writePost() {
 
 	}
 
-	private void writePost(Scanner scanner2, UserManager userManager2, PostManager postManager2) {
-
-	}
-
-	private void viewBoards(PostManager postManager2) {
+	private void myPage() {
 
 	}
 
