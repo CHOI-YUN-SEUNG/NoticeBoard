@@ -229,18 +229,16 @@ public class Board {
 			System.out.println("해당 제목의 게시글이 이미 존재합니다. 다른 제목으로 작성해주시길 바랍니다.");
 	}
 
-	private void searchPostByAuthor() {// 제목으로 게시글 검색
+	private void searchPostByAuthor() {
 		// 작성자로 게시글 검색
-		// TODO Auto-generated method stub
 
 	}
 
-	private void searchPostByTitle() {
-		// TODO Auto-generated method stub
+	private void searchPostByTitle() {// 제목으로 게시글 검색
 
 	}
 
-	private void updatePost() { 
+	private void updatePost() {
 		System.out.println("\n===== 게시글 수정 =====");
 		String title = inputString("게시글 제목");
 		UserPost post = postManager.getPost(title);
@@ -250,14 +248,24 @@ public class Board {
 				RegisteredUser author = userManager.getUser(nowUser);
 				postManager.addPost(title, content, author);
 				System.out.println("게시글이 수정 되었습니다.");
-			}else
+			} else
 				System.out.println("본인이 작성한 글만 수정할 수 있습니다");
 		} else
 			System.out.println("해당 게시글이 존재하지 않습니다.");
 	}
 
 	private void deletePost() { // 게시글 삭제
-
+		System.out.println("\n===== 게시글 삭제 =====");
+		String title = inputString("게시글 제목");
+		UserPost post = postManager.getPost(title);
+		if (post != null) {
+			if (nowUser.equals(post.getAuthor().getId())) {
+				postManager.removePost(post.getTitle());
+				System.out.println("게시글이 삭제되었습니다");
+			} else
+				System.out.println("본인이 작성한 글만 삭제할 수 있습니다");
+		} else
+			System.out.println("해당 게시글이 존재하지 않습니다.");
 	}
 
 	private void printMyPost() {
