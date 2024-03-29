@@ -65,7 +65,7 @@ public class Board {
 			registerUser();
 			break;
 		case 2:
-			login(scanner, userManager);
+			login();
 			break;
 		case 3:
 			logout(userManager);
@@ -92,26 +92,36 @@ public class Board {
 	}
 
 	private boolean checkUser(String id) {
-		if (userManager.getUser(id) != null) {
+		if (userManager.getUser(id) != null)
 			return true;
-		}
 		return false;
 	}
 
 	private void registerUser() {
 		System.out.println("\n===== 회원가입 =====");
-		System.out.print("사용자 ID: ");
-		String Id = scanner.nextLine();
-		System.out.print("PassWord: ");
-		String password = scanner.nextLine();
+		String id = inputString("사용자 ID");
+		String password = inputString("사용자 PW");
 
-		if (!checkUser(Id)) {
-			userManager.addUser(Id, password);
+		if (!checkUser(id)) {
+			userManager.addUser(id, password);
 			System.out.println("회원가입이 완료되었습니다.");
 		} else
 			System.out.println("해당 아이디는 사용하실 수 없습니다.");
 	}
- 
+
+	private void login() {
+		System.out.println("\n===== 로그인 =====");
+		String id = inputString("사용자 ID");
+		String password = inputString("사용자 PW");
+		RegisteredUser user = userManager.getUser(id);
+		if (user != null && user.getPassWord().equals(password)) {
+			userManager.setLoggedIn(true);
+			System.out.println("로그인 성공! " + id + "님 환영합니다.");
+		} else {
+			System.out.println("로그인 실패! 사용자 이름 또는 비밀번호를 확인하세요.");
+		}
+	}
+
 	private void unregisterUser(Scanner scanner2, UserManager userManager2) {
 		// TODO Auto-generated method stub
 
@@ -130,10 +140,6 @@ public class Board {
 	}
 
 	private void logout(UserManager userManager2) {
-
-	}
-
-	private void login(Scanner scanner2, UserManager userManager2) {
 
 	}
 
