@@ -12,6 +12,7 @@ public class Board {
 	private PostManager postManager;
 	private String nowUser;
 	private boolean isRun;
+	private boolean isSubRun;
 
 	public Board() {
 		nowUser = "";
@@ -76,7 +77,7 @@ public class Board {
 			unregisterUser();
 			break;
 		case 5:
-			viewBoards();
+			boardHome();
 			break;
 		case 6:
 			printMyPost();
@@ -154,6 +155,55 @@ public class Board {
 			System.out.println("로그인이 필요합니다");
 	}
 
+	private void boardHome() {
+		if (userManager.isLoggedIn()) {
+			isSubRun = true;
+			while (isSubRun) {
+				viewBoards();
+				printSubMenu();
+				int choice = inputNumber("선택 ");
+				processSubMenu(choice);
+			}
+		} else
+			System.out.println("로그인이 필요합니다.");
+	}
+
+	private void printSubMenu() {
+		System.out.println("\n===== 게시판 =====");
+		System.out.println("1. 게시글 작성");
+		System.out.println("2. 제목으로 게시글 검색");
+		System.out.println("3. 작성자명으로 게시글 검색");
+		System.out.println("4. 게시글 수정");
+		System.out.println("5. 게시글 삭제");
+		System.out.println("0. 뒤로가기");
+		System.out.println("===============");
+	}
+
+	private void processSubMenu(int choice) {
+		switch (choice) {
+		case 1:
+			writePost();
+			break;
+		case 2:
+			searchPostByTitle();
+			break;
+		case 3:
+			searchPostByAuthor();
+			break;
+		case 4:
+			updatePost();
+			break;
+		case 5:
+			deletePost();
+			break;
+		case 0:
+			isSubRun = false;
+			return;
+		default:
+			System.out.println("올바르지 않은 메뉴 선택입니다. 다시 선택하세요.");
+		}
+	}
+
 	private void viewBoards() {// 게시글 유저검색,제목검색,번호 입력으로 내용확인
 		System.out.println("\n===== 게시글 조회 =====");
 		HashMap<String, UserPost> boards = postManager.getPosts();
@@ -166,41 +216,57 @@ public class Board {
 			System.out.println("게시글이 없습니다.");
 	}
 
-	private void writePost() { //System.out.println("1. 게시글 작성");
+	private void writePost() { // System.out.println("1. 게시글 작성");
 		System.out.println("\n===== 게시글 작성 =====");
-		if (userManager.isLoggedIn()) {
-			String title = inputString("게시글 제목");
-			Post post = postManager.getPost(title);
-			if (post == null) {
-				String content = inputString("게시글 내용");
-				RegisteredUser author = userManager.getUser(nowUser);
-				postManager.addPost(title, content, author);
-				System.out.println("게시글이 작성되었습니다.");
-			} else
-				System.out.println("해당 제목의 게시글이 이미 존재합니다. 다른 제목으로 작성해주시길 바랍니다.");
-		} else {
-			System.out.println("로그인이 필요합니다.");
-		}
+		String title = inputString("게시글 제목");
+		UserPost post = postManager.getPost(title);
+		if (post == null) {
+			String content = inputString("게시글 내용");
+			RegisteredUser author = userManager.getUser(nowUser);
+			postManager.addPost(title, content, author);
+			System.out.println("게시글이 작성되었습니다.");
+		} else
+			System.out.println("해당 제목의 게시글이 이미 존재합니다. 다른 제목으로 작성해주시길 바랍니다.");
 	}
 
-	private void updateMyPost() {
+	private void searchPostByAuthor() {// 제목으로 게시글 검색
+		// 작성자로 게시글 검색
 		// TODO Auto-generated method stub
 
 	}
 
-	private void deleteMyPost() {
-
+	private void searchPostByTitle() {
+		// TODO Auto-generated method stub
 
 	}
-	
+
+	private void updatePost() { 
+		System.out.println("\n===== 게시글 수정 =====");
+		String title = inputString("게시글 제목");
+		UserPost post = postManager.getPost(title);
+		if (post != null) {
+			if (nowUser.equals(post.getAuthor().getId())) {
+				String content = inputString("게시글 내용");
+				RegisteredUser author = userManager.getUser(nowUser);
+				postManager.addPost(title, content, author);
+				System.out.println("게시글이 수정 되었습니다.");
+			}else
+				System.out.println("본인이 작성한 글만 수정할 수 있습니다");
+		} else
+			System.out.println("해당 게시글이 존재하지 않습니다.");
+	}
+
+	private void deletePost() { // 게시글 삭제
+
+	}
+
 	private void printMyPost() {
 		HashMap<String, UserPost> temp = postManager.getPosts();
 		List keyset = new ArrayList(temp.keySet());
 		for (Object postTitle : keyset) {
 			UserPost post = temp.get(postTitle);
 			if (post != null && nowUser.equals(post.getAuthor().getId())) {
-				System.out.println(
-						"제목: " + post.getTitle() + ", 내용: " + post.getContent());
+				System.out.println("제목: " + post.getTitle() + ", 내용: " + post.getContent());
 			} else
 				System.out.println("게시글이 없습니다.");
 		}
