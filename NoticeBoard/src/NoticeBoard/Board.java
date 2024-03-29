@@ -71,7 +71,7 @@ public class Board {
 			logout();
 			break;
 		case 4:
-			unregisterUser(scanner, userManager);
+			unregisterUser();
 			break;
 		case 5:
 			viewBoards(postManager);
@@ -131,10 +131,18 @@ public class Board {
 			System.out.println("이미 로그아웃 상태입니다.");
 		}
 	}
-	
-	private void unregisterUser(Scanner scanner2, UserManager userManager2) {
-		// TODO Auto-generated method stub
 
+	private void unregisterUser() {
+		System.out.println("\n===== 회원탈퇴 =====");
+		String id = inputString("사용자 ID");
+		String password = inputString("사용자 PW");
+		User user = userManager.getUser(id);
+		if (user != null && user.getPassWord().equals(password)) {
+			userManager.removeUser(id);
+			System.out.println("회원탈퇴가 완료되었습니다.");
+		} else {
+			System.out.println("존재하지 않는 사용자입니다.");
+		}
 	}
 
 	private void myPage(Scanner scanner2, UserManager userManager2, PostManager postManager2) {
@@ -148,7 +156,5 @@ public class Board {
 	private void viewBoards(PostManager postManager2) {
 
 	}
-
-
 
 }
