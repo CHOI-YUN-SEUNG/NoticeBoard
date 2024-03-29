@@ -17,21 +17,21 @@ public class UserManager {
 		return instance;
 	}
 
-	public void addUser(String username, String password) {
-		RegisteredUser user = new RegisteredUser(username, password);
-		users.put(username, user);
+	public void addUser(String id, String password) {
+		RegisteredUser user = new RegisteredUser(id, password);
+		users.put(id, user);
 	}
 
-	public RegisteredUser getUser(String username) {
-		return users.get(username);
+	public RegisteredUser getUser(String id) {
+		return users.get(id);
 	}
 
 	public HashMap<String, RegisteredUser> getUsers() {
 		return users;
 	}
 
-	public void removeUser(String username) {
-		users.remove(username);
+	public void removeUser(String id) {
+		users.remove(id);
 	}
 
 	public boolean isLoggedIn() {
