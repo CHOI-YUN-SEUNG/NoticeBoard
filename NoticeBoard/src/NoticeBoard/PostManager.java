@@ -1,12 +1,15 @@
 package NoticeBoard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PostManager {
 	private HashMap<String, UserPost> posts;
 
 	public PostManager() {
-		posts = new HashMap<>();;
+		posts = new HashMap<>();
+		;
 	}
 
 	public void addPost(String title, String content, RegisteredUser author) {
@@ -18,10 +21,21 @@ public class PostManager {
 		return posts.get(title);
 	}
 
+	public UserPost findPost(String author) {
+		List keyset = new ArrayList(posts.keySet());
+		for (Object postTitle : keyset) {
+			UserPost post = posts.get(postTitle);
+			if (post != null && author.equals(post.getAuthor().getId())) {
+				return post;
+			}
+		}
+		return null;
+	}
+
 	public HashMap<String, UserPost> getPosts() {
 		return posts;
 	}
-	
+
 	public void removePost(String title) {
 		posts.remove(title);
 	}
