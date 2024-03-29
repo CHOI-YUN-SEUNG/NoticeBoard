@@ -140,7 +140,14 @@ public class Board {
 			String password = inputString("사용자 PW");
 			User user = userManager.getUser(nowUser);
 			if (user != null && user.getPassWord().equals(password)) {
+
+				while (postManager.findPost(nowUser) != null) {
+					UserPost post = postManager.findPost(nowUser);
+					postManager.removePost(post.getTitle());
+				}
+
 				userManager.removeUser(nowUser);
+
 				System.out.println("회원탈퇴가 완료되었습니다.");
 				logout();
 			} else
@@ -149,7 +156,7 @@ public class Board {
 			System.out.println("로그인이 필요합니다");
 	}
 
-	private void viewBoards() {
+	private void viewBoards() {// 게시글 유저검색,제목검색,번호 입력으로 내용확인
 		System.out.println("\n===== 게시글 조회 =====");
 		HashMap<String, UserPost> boards = postManager.getPosts();
 		if (postManager.getSize() > 0) {
@@ -178,7 +185,7 @@ public class Board {
 		}
 	}
 
-	private void myPage() {
+	private void myPage() { // 내 게시글 모아보여주고, 게시글 수정, 삭제
 
 	}
 
