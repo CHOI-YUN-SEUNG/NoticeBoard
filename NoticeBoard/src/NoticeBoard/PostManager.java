@@ -9,7 +9,6 @@ public class PostManager {
 
 	public PostManager() {
 		posts = new HashMap<>();
-		;
 	}
 
 	public void addPost(String title, String content, RegisteredUser author) {
@@ -42,5 +41,12 @@ public class PostManager {
 
 	public int getSize() {
 		return posts.size();
+	}
+	
+	public void removeAllPost(String id) {
+		while (findPost(id) != null) {
+			UserPost post = findPost(id);
+			removePost(post.getTitle());
+		}
 	}
 }
