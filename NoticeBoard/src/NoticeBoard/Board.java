@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Board {
@@ -15,10 +14,8 @@ public class Board {
 	private String nowUser;
 	private boolean isRun;
 	private boolean isSubRun;
-	private admin admin;
 
 	public Board() {
-		nowUser = "";
 		isRun = true;
 		scanner = new Scanner(System.in);
 		userManager = new UserManager();
@@ -107,23 +104,24 @@ public class Board {
 	}
 
 	private void login() {
-		System.out.println("\n===== 로그인 =====");
-		String id = inputString("사용자 ID");
-		String password = inputString("사용자 PW");
-		RegisteredUser user = userManager.getUser(id);
-		if (user != null && user.getPassWord().equals(password)) {
-			userManager.setLoggedIn(true);
-			nowUser = id;
-			System.out.println("로그인 성공! " + id + "님 환영합니다.");
-		} else {
-			System.out.println("로그인 실패! 사용자 이름 또는 비밀번호를 확인하세요.");
-		}
+		if (nowUser == null) {
+			System.out.println("\n===== 로그인 =====");
+			String id = inputString("사용자 ID");
+			String password = inputString("사용자 PW");
+			RegisteredUser user = userManager.getUser(id);
+			if (user != null && user.getPassWord().equals(password)) {
+				nowUser = id;
+				System.out.println("로그인 성공! " + id + "님 환영합니다.");
+			} else {
+				System.out.println("로그인 실패! 사용자 이름 또는 비밀번호를 확인하세요.");
+			}
+		} else
+			System.out.println("이미 로그인 상태입니다");
 	}
 
 	private void logout() {
-		if (userManager.isLoggedIn()) {
-			userManager.setLoggedIn(false);
-			nowUser = "";
+		if (nowUser != null) {
+			nowUser = null;
 			System.out.println("로그아웃 되었습니다.");
 		} else {
 			System.out.println("이미 로그아웃 상태입니다.");
@@ -132,7 +130,7 @@ public class Board {
 
 	private void unregisterUser() {
 		System.out.println("\n===== 회원탈퇴 =====");
-		if (userManager.isLoggedIn()) {
+		if (nowUser != null) {
 			String password = inputString("사용자 PW");
 			User user = userManager.getUser(nowUser);
 			if (user != null && user.getPassWord().equals(password)) {
@@ -147,7 +145,7 @@ public class Board {
 	}
 
 	private void boardHome() {
-		if (userManager.isLoggedIn()) {
+		if (nowUser != null) {
 			isSubRun = true;
 			while (isSubRun) {
 				viewBoards();
@@ -277,7 +275,7 @@ public class Board {
 	}
 
 	private void printMyPost() {
-		if (userManager.isLoggedIn()) {
+		if (nowUser != null) {
 			HashMap<String, UserPost> temp = postManager.getPosts();
 			List keyset = new ArrayList(temp.keySet());
 			Collections.sort(keyset, Comparator.comparing(User::getId));
