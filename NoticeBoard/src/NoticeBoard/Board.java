@@ -1,6 +1,8 @@
 package NoticeBoard;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ public class Board {
 	private String nowUser;
 	private boolean isRun;
 	private boolean isSubRun;
+	private admin admin;
 
 	public Board() {
 		nowUser = "";
@@ -91,18 +94,12 @@ public class Board {
 		}
 	}
 
-	private boolean checkUser(String id) {
-		if (userManager.getUser(id) != null)
-			return true;
-		return false;
-	}
-
 	private void registerUser() {
 		System.out.println("\n===== 회원가입 =====");
 		String id = inputString("사용자 ID");
 		String password = inputString("사용자 PW");
 
-		if (!checkUser(id)) {
+		if (!userManager.checkUser(id)) {
 			userManager.addUser(id, password);
 			System.out.println("회원가입이 완료되었습니다.");
 		} else
@@ -139,16 +136,10 @@ public class Board {
 			String password = inputString("사용자 PW");
 			User user = userManager.getUser(nowUser);
 			if (user != null && user.getPassWord().equals(password)) {
-
-				while (postManager.findPost(nowUser) != null) {
-					UserPost post = postManager.findPost(nowUser);
-					postManager.removePost(post.getTitle());
-				}
-
+				postManager.removeAllPost(nowUser);
 				userManager.removeUser(nowUser);
-
-				System.out.println("회원탈퇴가 완료되었습니다.");
 				logout();
+				System.out.println("회원탈퇴가 완료되었습니다.");
 			} else
 				System.out.println("잘못된 비밀번호입니다. 탈퇴를 취소합니다");
 		} else
@@ -206,17 +197,18 @@ public class Board {
 
 	private void viewBoards() {
 		System.out.println("\n===== 게시글 조회 =====");
-		HashMap<String, UserPost> boards = postManager.getPosts();
 		if (postManager.getSize() > 0) {
-			for (Map.Entry<String, UserPost> entry : boards.entrySet()) {
-				System.out.println("제목: " + entry.getKey() + ", 내용: " + entry.getValue().getContent() + ", 작성자: "
-						+ entry.getValue().getAuthor().getId());
+			HashMap<String, UserPost> temp = postManager.getPosts();
+			List keyset = new ArrayList(temp.keySet());
+			for (Object postTitle : keyset) {
+				UserPost post = temp.get(postTitle);
+				System.out.println(post);
 			}
 		} else
 			System.out.println("게시글이 없습니다.");
 	}
 
-	private void writePost() { // System.out.println("1. 게시글 작성");
+	private void writePost() {
 		System.out.println("\n===== 게시글 작성 =====");
 		String title = inputString("게시글 제목");
 		UserPost post = postManager.getPost(title);
@@ -285,14 +277,18 @@ public class Board {
 	}
 
 	private void printMyPost() {
-		HashMap<String, UserPost> temp = postManager.getPosts();
-		List keyset = new ArrayList(temp.keySet());
-		for (Object postTitle : keyset) {
-			UserPost post = temp.get(postTitle);
-			if (post != null && nowUser.equals(post.getAuthor().getId())) {
-				System.out.println("제목: " + post.getTitle() + ", 내용: " + post.getContent());
-			} else
-				System.out.println("게시글이 없습니다.");
-		}
+		if (userManager.isLoggedIn()) {
+			HashMap<String, UserPost> temp = postManager.getPosts();
+			List keyset = new ArrayList(temp.keySet());
+			Collections.sort(keyset, Comparator.comparing(User::getId));
+			for (Object postTitle : keyset) {
+				UserPost post = temp.get(postTitle);
+				if (post != null && nowUser.equals(post.getAuthor().getId())) {
+					System.out.println("제목: " + post.getTitle() + ", 내용: " + post.getContent());
+				} else
+					System.out.println("게시글이 없습니다.");
+			}
+		} else
+			System.out.println("로그인이 필요합니다.");
 	}
 }
