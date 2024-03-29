@@ -12,7 +12,7 @@ public class UserManager {
 	}
 
 	private static UserManager instance = new UserManager();
- 
+
 	public static UserManager getInstance() {
 		return instance;
 	}
@@ -30,6 +30,12 @@ public class UserManager {
 		return users;
 	}
 
+	public boolean checkUser(String id) {
+		if (getUser(id) != null)
+			return true;
+		return false;
+	}
+
 	public void removeUser(String id) {
 		users.remove(id);
 	}
@@ -41,7 +47,7 @@ public class UserManager {
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
 	}
-	
+
 	public int getUserSize() {
 		return users.size();
 	}
