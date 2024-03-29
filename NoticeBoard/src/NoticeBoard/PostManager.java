@@ -24,7 +24,7 @@ public class PostManager {
 	public HashMap<String, UserPost> getPosts() {
 		return posts;
 	}
-
+	
 	public void removePost(String title) {
 		posts.remove(title);
 	}
