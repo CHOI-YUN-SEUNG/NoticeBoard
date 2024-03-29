@@ -152,7 +152,7 @@ public class Board {
 	private void viewBoards() {
 		System.out.println("\n===== 게시글 조회 =====");
 		HashMap<String, UserPost> boards = postManager.getPosts();
-		if (postManager.getCount() > 0) {
+		if (postManager.getSize() > 0) {
 			for (Map.Entry<String, UserPost> entry : boards.entrySet()) {
 				System.out.println("제목: " + entry.getKey() + ", 내용: " + entry.getValue().getContent() + ", 작성자: "
 						+ entry.getValue().getAuthor().getId());
@@ -162,7 +162,20 @@ public class Board {
 	}
 
 	private void writePost() {
-
+		System.out.println("\n===== 게시글 작성 =====");
+		if (userManager.isLoggedIn()) {
+			String title = inputString("게시글 제목");
+			Post post = postManager.getPost(title);
+			if (post == null) {
+				String content = inputString("게시글 내용");
+				RegisteredUser author = userManager.getUser(nowUser);
+				postManager.addPost(title, content, author);
+				System.out.println("게시글이 작성되었습니다.");
+			} else
+				System.out.println("해당 제목의 게시글이 이미 존재합니다. 다른 제목으로 작성해주시길 바랍니다.");
+		} else {
+			System.out.println("로그인이 필요합니다.");
+		}
 	}
 
 	private void myPage() {
