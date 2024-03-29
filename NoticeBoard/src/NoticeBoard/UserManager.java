@@ -4,9 +4,12 @@ import java.util.HashMap;
 
 public class UserManager {
 	private HashMap<String, RegisteredUser> users;
-	
+	private admin admin;
+
 	public UserManager() {
 		users = new HashMap<>();
+		admin = new admin();
+		addUser(admin.getId(), admin.getPassWord()); // 관리자 계정 추가
 	}
 
 	private static UserManager instance = new UserManager();
@@ -37,7 +40,6 @@ public class UserManager {
 	public void removeUser(String id) {
 		users.remove(id);
 	}
-
 
 	public int getUserSize() {
 		return users.size();

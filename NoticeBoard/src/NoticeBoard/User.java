@@ -3,7 +3,7 @@ package NoticeBoard;
 public class User {
 	private String id;
 	private String passWord;
-
+	
 	public User() {
 
 	}
