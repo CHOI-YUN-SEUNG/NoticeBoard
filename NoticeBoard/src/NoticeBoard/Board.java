@@ -204,7 +204,7 @@ public class Board {
 		}
 	}
 
-	private void viewBoards() {// 게시글 유저검색,제목검색,번호 입력으로 내용확인
+	private void viewBoards() {
 		System.out.println("\n===== 게시글 조회 =====");
 		HashMap<String, UserPost> boards = postManager.getPosts();
 		if (postManager.getSize() > 0) {
@@ -230,12 +230,28 @@ public class Board {
 	}
 
 	private void searchPostByAuthor() {
-		// 작성자로 게시글 검색
-
+		System.out.println("\n===== 게시글 검색 =====");
+		String author = inputString("작성자명");
+		HashMap<String, UserPost> temp = postManager.getPosts();
+		List keyset = new ArrayList(temp.keySet());
+		for (Object postTitle : keyset) {
+			UserPost post = temp.get(postTitle);
+			if (post != null && author.equals(post.getAuthor().getId())) {
+				System.out.println("제목: " + post.getTitle() + ", 내용: " + post.getContent());
+			} else
+				System.out.println("게시글이 없습니다.");
+		}
 	}
 
-	private void searchPostByTitle() {// 제목으로 게시글 검색
-
+	private void searchPostByTitle() {
+		System.out.println("\n===== 게시글 검색 =====");
+		String title = inputString("게시글 제목");
+		UserPost post = postManager.getPost(title);
+		if (post != null) {
+			System.out.println(
+					"제목: " + post.getTitle() + ", 내용: " + post.getContent() + "작성자: " + post.getAuthor().getId());
+		} else
+			System.out.println("해당 게시글이 존재하지 않습니다.");
 	}
 
 	private void updatePost() {
@@ -254,7 +270,7 @@ public class Board {
 			System.out.println("해당 게시글이 존재하지 않습니다.");
 	}
 
-	private void deletePost() { // 게시글 삭제
+	private void deletePost() {
 		System.out.println("\n===== 게시글 삭제 =====");
 		String title = inputString("게시글 제목");
 		UserPost post = postManager.getPost(title);
