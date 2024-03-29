@@ -62,7 +62,7 @@ public class Board {
 	private void processMenu(int choice) {
 		switch (choice) {
 		case 1:
-			registerUser(scanner, userManager);
+			registerUser();
 			break;
 		case 2:
 			login(scanner, userManager);
@@ -71,7 +71,7 @@ public class Board {
 			logout(userManager);
 			break;
 		case 4:
-			registerUser(scanner, userManager);
+			unregisterUser(scanner, userManager);
 			break;
 		case 5:
 			viewBoards(postManager);
@@ -91,6 +91,32 @@ public class Board {
 		}
 	}
 
+	private boolean checkUser(String id) {
+		if (userManager.getUser(id) != null) {
+			return true;
+		}
+		return false;
+	}
+
+	private void registerUser() {
+		System.out.println("\n===== 회원가입 =====");
+		System.out.print("사용자 ID: ");
+		String Id = scanner.nextLine();
+		System.out.print("PassWord: ");
+		String password = scanner.nextLine();
+
+		if (!checkUser(Id)) {
+			userManager.addUser(Id, password);
+			System.out.println("회원가입이 완료되었습니다.");
+		} else
+			System.out.println("해당 아이디는 사용하실 수 없습니다.");
+	}
+ 
+	private void unregisterUser(Scanner scanner2, UserManager userManager2) {
+		// TODO Auto-generated method stub
+
+	}
+
 	private void myPage(Scanner scanner2, UserManager userManager2, PostManager postManager2) {
 
 	}
@@ -108,10 +134,6 @@ public class Board {
 	}
 
 	private void login(Scanner scanner2, UserManager userManager2) {
-
-	}
-
-	private void registerUser(Scanner scanner2, UserManager userManager2) {
 
 	}
 
