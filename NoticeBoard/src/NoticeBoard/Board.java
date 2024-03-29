@@ -1,6 +1,8 @@
 package NoticeBoard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -54,8 +56,7 @@ public class Board {
 		System.out.println("3. 로그아웃");
 		System.out.println("4. 회원탈퇴");
 		System.out.println("5. 게시판 둘러보기");
-		System.out.println("6. 게시글 작성");
-		System.out.println("7. 내 게시글 관리");
+		System.out.println("6. 내 게시글 모아보기");
 		System.out.println("0. 종료");
 		System.out.println("===============");
 	}
@@ -78,10 +79,7 @@ public class Board {
 			viewBoards();
 			break;
 		case 6:
-			writePost();
-			break;
-		case 7:
-			myPage();
+			printMyPost();
 			break;
 		case 0:
 			System.out.println("프로그램을 종료합니다.");
@@ -168,7 +166,7 @@ public class Board {
 			System.out.println("게시글이 없습니다.");
 	}
 
-	private void writePost() {
+	private void writePost() { //System.out.println("1. 게시글 작성");
 		System.out.println("\n===== 게시글 작성 =====");
 		if (userManager.isLoggedIn()) {
 			String title = inputString("게시글 제목");
@@ -185,8 +183,26 @@ public class Board {
 		}
 	}
 
-	private void myPage() { // 내 게시글 모아보여주고, 게시글 수정, 삭제
+	private void updateMyPost() {
+		// TODO Auto-generated method stub
 
 	}
 
+	private void deleteMyPost() {
+
+
+	}
+	
+	private void printMyPost() {
+		HashMap<String, UserPost> temp = postManager.getPosts();
+		List keyset = new ArrayList(temp.keySet());
+		for (Object postTitle : keyset) {
+			UserPost post = temp.get(postTitle);
+			if (post != null && nowUser.equals(post.getAuthor().getId())) {
+				System.out.println(
+						"제목: " + post.getTitle() + ", 내용: " + post.getContent());
+			} else
+				System.out.println("게시글이 없습니다.");
+		}
+	}
 }
