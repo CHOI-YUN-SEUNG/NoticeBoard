@@ -68,7 +68,7 @@ public class Board {
 			login();
 			break;
 		case 3:
-			logout(userManager);
+			logout();
 			break;
 		case 4:
 			unregisterUser(scanner, userManager);
@@ -122,6 +122,16 @@ public class Board {
 		}
 	}
 
+	private void logout() {
+		System.out.println("\n===== 로그아웃 =====");
+		if (userManager.isLoggedIn()) {
+			userManager.setLoggedIn(false);
+			System.out.println("로그아웃 되었습니다.");
+		} else {
+			System.out.println("이미 로그아웃 상태입니다.");
+		}
+	}
+	
 	private void unregisterUser(Scanner scanner2, UserManager userManager2) {
 		// TODO Auto-generated method stub
 
@@ -139,8 +149,6 @@ public class Board {
 
 	}
 
-	private void logout(UserManager userManager2) {
 
-	}
 
 }
