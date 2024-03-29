@@ -4,11 +4,9 @@ import java.util.HashMap;
 
 public class UserManager {
 	private HashMap<String, RegisteredUser> users;
-	private boolean loggedIn;
-
+	
 	public UserManager() {
 		users = new HashMap<>();
-		loggedIn = false;
 	}
 
 	private static UserManager instance = new UserManager();
@@ -40,13 +38,6 @@ public class UserManager {
 		users.remove(id);
 	}
 
-	public boolean isLoggedIn() {
-		return loggedIn;
-	}
-
-	public void setLoggedIn(boolean loggedIn) {
-		this.loggedIn = loggedIn;
-	}
 
 	public int getUserSize() {
 		return users.size();
