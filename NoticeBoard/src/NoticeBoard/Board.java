@@ -1,11 +1,13 @@
 package NoticeBoard;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Board {
-	private Map<User, ArrayList<Post>> userData = new HashMap<>();
+	private Scanner scanner = new Scanner(System.in);
+	private UserManager userManager = new UserManager();
+	private PostManager postManager = new PostManager();
 
 	public void run() {
 
