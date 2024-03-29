@@ -9,7 +9,7 @@ public class PostManager {
 		posts = new HashMap<>();;
 	}
 
-	public void addBoard(String title, String content, RegisteredUser author) {
+	public void addPost(String title, String content, RegisteredUser author) {
 		UserPost post = new UserPost(title, content, author);
 		posts.put(title, post);
 	}
