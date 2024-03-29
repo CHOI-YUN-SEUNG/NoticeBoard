@@ -1,12 +1,14 @@
 package NoticeBoard;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserManager {
-	private ArrayList<User> userList;
+	private HashMap<String, RegisteredUser> users;
+	private boolean loggedIn;
 
-	private UserManager() {
-		userList = new ArrayList<>();
+	public UserManager() {
+		users = new HashMap<>();
+		loggedIn = false;
 	}
 
 	private static UserManager instance = new UserManager();
@@ -15,66 +17,36 @@ public class UserManager {
 		return instance;
 	}
 
-	public User createUser(String id, String passWord) {
-		if (checkId(id)) {
-			User user = new User(id, passWord);
-			userList.add(user);
-			return user.clone();
-		}
-		return new User();
+	public void addUser(String username, String password) {
+		RegisteredUser user = new RegisteredUser(username, password);
+		users.put(username, user);
 	}
 
-	private boolean checkId(String id) {
-		for (User user : userList) {
-			if (user.getId().equals(id))
-				return false;
-		}
-		return true;
+	public RegisteredUser getUser(String username) {
+		return users.get(username);
 	}
 
-	public User findUserByUserID(String id) {
-		for (User user : userList) {
-			if (user.getId().equals(id))
-				return user.clone();
-		}
-		return new User();
+	public HashMap<String, RegisteredUser> getUsers() {
+		return users;
 	}
 
-	public User findUserByUserPW(String passWord) {
-		for (User user : userList) {
-			if (user.getPassWord().equals(passWord))
-				return user.clone();
-		}
-		return new User();
+	public void removeUser(String username) {
+		users.remove(username);
 	}
 
-
-	public boolean deleteUser(User user) {
-		String userId = user.getId();
-		User targetUser = getUserById(userId);
-		return userList.remove(targetUser);
+	public boolean isLoggedIn() {
+		return loggedIn;
 	}
 
-	private User getUserById(String Id) {
-		for (User user : userList) {
-			if (user.getId() == Id)
-				return user;
-		}
-		return new User();
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
 	}
-
+	
 	public int getUserSize() {
-		return userList.size();
-	}
-
-	public ArrayList<User> getUserList() {
-		ArrayList<User> temp = new ArrayList<>();
-		for (User user : userList)
-			temp.add(user.clone());
-		return temp;
+		return users.size();
 	}
 
 	public User findUserByIndex(int index) {
-		return userList.get(index).clone();
+		return users.get(index).clone();
 	}
 }
