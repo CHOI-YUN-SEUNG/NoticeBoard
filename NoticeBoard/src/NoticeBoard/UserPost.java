@@ -1,19 +1,33 @@
 package NoticeBoard;
 
-public class UserPost extends Post{
-	private RegisteredUser author;
+import java.util.ArrayList;
 
-	public UserPost(String title, String content, RegisteredUser author) {
-		super(title, content);
-		this.author = author;
-	}
+class UserPost extends Post {
+    private int upvotes;
+    private ArrayList<String> upvotedUsers;
 
-	public RegisteredUser getAuthor() {
-		return author;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("제목: %s\n" + "내용: %s"+ "\n작성자: %s\n" , getTitle(), getContent(), this.author.getId());
-	}
+    public UserPost(String title, String content, String author) {
+        super(title, content, author);
+        this.upvotes = 0;
+    }
+
+    public int getUpvotes() {
+        return upvotes;
+    }
+
+    public void upvote(String userId) {
+        if (!upvotedUsers.contains(userId)) {
+            upvotes++;
+            upvotedUsers.add(userId);
+        }
+    }
+
+    public boolean hasUpvoted(String userId) {
+        return upvotedUsers.contains(userId);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n추천수: " + upvotes;
+    }
 }
