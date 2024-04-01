@@ -9,7 +9,8 @@
 전체 유저 확인, 특정 유저 차단, 공지사항 작성 등의 기능을 지원합니다.<br>
 
 ## UML (상속이 이루어진 부분들만)
-![제목 없는 다이어그램 (1)](https://github.com/CHOI-YUN-SEUNG/NoticeBoard/assets/154594253/8f452ff1-3a01-4bf4-ace2-b089763725ba)
+![제목 없는 다이어그램](https://github.com/CHOI-YUN-SEUNG/NoticeBoard/assets/154594253/fe0fa14a-8e3e-44ea-8f60-4a964d536b2e)
+
 
 ## [프로그램 기능 소개]
 
