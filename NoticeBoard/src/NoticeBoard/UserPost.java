@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 class UserPost extends Post {
 	private int upvotes;
-	private ArrayList<String> upvotedUsers;
+	private ArrayList<String> upvotedUsers = new ArrayList<String>();
 
 	public UserPost(String title, String content, String author) {
 		super(title, content, author);
