@@ -19,11 +19,10 @@ abstract class Post {
 		return content;
 	}
 
-	
 	public String getContentForSave() {
-	    return content.replaceAll("\n", ".");
+		return content.replaceAll("\n", ".");
 	}
-	
+
 	public String getAuthor() {
 		return author;
 	}
