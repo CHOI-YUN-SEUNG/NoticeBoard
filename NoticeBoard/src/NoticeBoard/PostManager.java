@@ -55,7 +55,12 @@ public class PostManager {
 		}
 		return authorPosts;
 	}
-
+	
+	public List<AdminNotice> getAllAdminNotices() {
+		return new ArrayList<>(adminNotices.values());
+	}
+	
+	
 	public List<UserPost> getAllPosts() {
 		return new ArrayList<>(userPosts.values());
 	}
