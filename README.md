@@ -11,7 +11,7 @@
 ## UML (상속이 이루어진 부분들만)
 ![제목 없는 다이어그램 (1)](https://github.com/CHOI-YUN-SEUNG/NoticeBoard/assets/154594253/8f452ff1-3a01-4bf4-ace2-b089763725ba)
 
-[프로그램 기능 소개]
+## [프로그램 기능 소개]
 * 목록
   * 항목1
   * 항목2
