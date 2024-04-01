@@ -108,6 +108,7 @@ public class Board {
 			System.out.println("\n===== 로그인 =====");
 			String id = inputString("사용자 ID");
 			String password = inputString("사용자 PW");
+			if(user
 			RegisteredUser user = userManager.getUser(id);
 			if (user != null && user.getPassWord().equals(password)) {
 				nowUser = id;
