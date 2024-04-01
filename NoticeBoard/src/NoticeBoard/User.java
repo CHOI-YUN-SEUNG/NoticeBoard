@@ -2,35 +2,18 @@ package NoticeBoard;
 
 public class User {
 	private String id;
-	private String passWord;
-	
-	public User() {
+	private String password;
 
-	}
-
-	public User(String id, String passWord) {
+	public User(String id, String password) {
 		this.id = id;
-		this.passWord = passWord;
-	}
-
-	public User clone() {
-		User user = new User(this.id, this.passWord);
-		return user;
+		this.password = password;
 	}
 
 	public String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getPassWord() {
-		return passWord;
-	}
-
-	public void setgetPassWord(String passWord) {
-		this.passWord = passWord;
+	public String getPassword() {
+		return password;
 	}
 }
