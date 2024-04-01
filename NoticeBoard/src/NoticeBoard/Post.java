@@ -1,19 +1,30 @@
 package NoticeBoard;
 
-public class Post {
+abstract class Post {
 	private String title;
-    private String content;
+	private String content;
+	private String author;
 
-    public Post(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
+	public Post(String title, String content, String author) {
+		this.title = title;
+		this.content = content;
+		this.author = author;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getContent() {
+		return content;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	@Override
+	public String toString() {
+		return "제목: " + title + "\n내용: " + content + "\n작성자: " + author;
+	}
 }
