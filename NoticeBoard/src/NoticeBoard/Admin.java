@@ -1,7 +1,7 @@
 package NoticeBoard;
 
-public class admin extends User {
-    public admin() {
+public class Admin extends User {
+    public Admin() {
         super("admin", "1234");
     }
 }
