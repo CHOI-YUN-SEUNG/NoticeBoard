@@ -7,8 +7,14 @@ import java.util.List;
 public class PostManager {
 	private HashMap<String, Post> posts;
 
-	public PostManager() {
+	private PostManager() {
 		this.posts = new HashMap<>();
+	}
+
+	private static PostManager instance = new PostManager();
+
+	public static PostManager getInstance() {
+		return instance;
 	}
 
 	public void addUserPost(String title, String content, String author) {
@@ -42,7 +48,7 @@ public class PostManager {
 	public void removePost(String title) {
 		posts.remove(title);
 	}
-	
+
 	public int getSize() {
 		return posts.size();
 	}

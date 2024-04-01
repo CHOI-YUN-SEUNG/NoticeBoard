@@ -9,7 +9,7 @@ public class UserManager {
 	public UserManager() {
 		users = new HashMap<>();
 		admin = new admin();
-		addUser(admin.getId(), admin.getPassWord()); // 관리자 계정 추가
+		addUser(admin.getId(), admin.getPassword());
 	}
 
 	private static UserManager instance = new UserManager();
@@ -27,14 +27,12 @@ public class UserManager {
 		return users.get(id);
 	}
 
-	public HashMap<String, RegisteredUser> getUsers() {
-		return users;
+	public boolean checkUser(String id) {
+		return users.containsKey(id);
 	}
 
-	public boolean checkUser(String id) {
-		if (getUser(id) != null)
-			return true;
-		return false;
+	public HashMap<String, RegisteredUser> getUsers() {
+		return users;
 	}
 
 	public void removeUser(String id) {
@@ -46,6 +44,6 @@ public class UserManager {
 	}
 
 	public User findUserByIndex(int index) {
-		return users.get(index).clone();
+		return users.get(index);
 	}
 }
