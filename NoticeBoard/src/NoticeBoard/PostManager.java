@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PostManager {
-	private HashMap<String, Post> posts;
 	private HashMap<String, UserPost> userPosts;
 	private HashMap<String, AdminNotice> adminNotices;
 
@@ -13,7 +12,7 @@ public class PostManager {
 		userPosts = new HashMap<>();
 		adminNotices = new HashMap<>();
 	}
-	
+
 	private static PostManager instance = new PostManager();
 
 	public static PostManager getInstance() {
@@ -40,16 +39,16 @@ public class PostManager {
 
 	public void addAdminNotice(String title, String content, String author) {
 		AdminNotice post = new AdminNotice(title, content, author);
-		posts.put(title, post);
+		adminNotices.put(title, post);
 	}
 
 	public Post getPost(String title) {
-		return posts.get(title);
+		return userPosts.get(title);
 	}
 
 	public List<Post> getPostsByAuthor(String author) {
 		List<Post> authorPosts = new ArrayList<>();
-		for (Post post : posts.values()) {
+		for (Post post : userPosts.values()) {
 			if (post.getAuthor().equals(author)) {
 				authorPosts.add(post);
 			}
@@ -57,18 +56,18 @@ public class PostManager {
 		return authorPosts;
 	}
 
-	public List<Post> getAllPosts() {
-		return new ArrayList<>(posts.values());
+	public List<UserPost> getAllPosts() {
+		return new ArrayList<>(userPosts.values());
 	}
 
 	public void removePost(String title) {
-		posts.remove(title);
+		userPosts.remove(title);
 	}
 
 	public Post findPost(String author) {
-		List keyset = new ArrayList(posts.keySet());
+		List keyset = new ArrayList(userPosts.keySet());
 		for (Object postTitle : keyset) {
-			Post post = posts.get(postTitle);
+			Post post = userPosts.get(postTitle);
 			if (post != null && author.equals(post.getAuthor())) {
 				return post;
 			}
@@ -84,7 +83,8 @@ public class PostManager {
 	}
 
 	public int getSize() {
-		return posts.size();
+		return userPosts.size();
 	}
-
+	
+	
 }
