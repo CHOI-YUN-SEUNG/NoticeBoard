@@ -14,15 +14,15 @@ class UserPost extends Post {
 	public void setUpvotes(int upvotes) {
 		this.upvotes = upvotes;
 	}
-	
+
 	public ArrayList<String> getUpvotedUsers() {
 		return upvotedUsers;
 	}
-	
+
 	public void setUpvotedUsers(ArrayList<String> upvotedUsers) {
 		this.upvotedUsers = upvotedUsers;
 	}
-	
+
 	public int getUpvotes() {
 		return upvotes;
 	}
