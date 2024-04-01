@@ -102,15 +102,18 @@ public class Board {
 	}
 
 	private void registerUser() {
-		System.out.println("\n===== 회원가입 =====");
-		String id = inputString("사용자 ID");
-		String password = inputString("사용자 PW");
+		if (nowUser == null) {
+			System.out.println("\n===== 회원가입 =====");
+			String id = inputString("사용자 ID");
+			String password = inputString("사용자 PW");
 
-		if (!userManager.checkUser(id)) {
-			userManager.addUser(id, password);
-			System.out.println("회원가입이 완료되었습니다.");
+			if (!userManager.checkUser(id)) {
+				userManager.addUser(id, password);
+				System.out.println("회원가입이 완료되었습니다.");
+			} else
+				System.out.println("해당 아이디는 사용하실 수 없습니다.");
 		} else
-			System.out.println("해당 아이디는 사용하실 수 없습니다.");
+			System.out.println("이미 로그인 상태입니다");
 	}
 
 	private void login() {
@@ -174,12 +177,12 @@ public class Board {
 	private void printSubMenu() {
 		System.out.println("\n===== 게시판 =====");
 		System.out.println("1. 게시글 작성");
-		System.out.println("2. 제목으로 게시글 검색");
-		System.out.println("3. 작성자명으로 게시글 검색");
-		System.out.println("4. 게시글 수정");
-		System.out.println("5. 게시글 삭제");
-		System.out.println("6. 게시글 추천하기");
-		System.out.println("7. 추천수로 게시글 정렬하기");
+		System.out.println("2. 게시글 상세보기");
+		System.out.println("3. 제목으로 게시글 검색");
+		System.out.println("4. 작성자명으로 게시글 검색");
+		System.out.println("5. 게시글 수정");
+		System.out.println("6. 게시글 삭제");
+		System.out.println("7. 게시글 추천하기");
 		System.out.println("0. 뒤로가기");
 		System.out.println("===============");
 	}
@@ -190,22 +193,22 @@ public class Board {
 			writePost();
 			break;
 		case 2:
-			searchPostByTitle();
+			viewPost();
 			break;
 		case 3:
-			searchPostByAuthor();
+			searchPostByTitle();
 			break;
 		case 4:
-			updatePost();
+			searchPostByAuthor();
 			break;
 		case 5:
-			deletePost();
+			updatePost();
 			break;
 		case 6:
-			upvotePost();
+			deletePost();
 			break;
 		case 7:
-			sortPostsByUpvotes();
+			upvotePost();
 			break;
 		case 0:
 			isSubRun = false;
@@ -216,28 +219,51 @@ public class Board {
 	}
 
 	private void viewBoards() {
+		if (!postManager.getAllAdminNotices().isEmpty()) {
+			viewAdminNotice();
+		}
 		if (postManager.getAllPosts().isEmpty()) {
 			System.out.println("게시글이 없습니다.");
 		} else {
-			System.out.println("\n===== 게시글 목록 =====");
-			List<UserPost> posts = postManager.getAllPosts();
-			for (int i = 0; i < posts.size(); i++) {
-				UserPost post = posts.get(i);
-				System.out.println((i + 1) + ". " + post.getTitle() + " (작성자: " + post.getAuthor() + ")");
-			}
-			System.out.println("=======================");
-			int choice = inputNumber("상세 내용을 확인할 게시글 번호(0: 뒤로가기)");
-			if (choice != 0 && choice <= posts.size()) {
-				UserPost selectedPost = posts.get(choice - 1);
-				System.out.println("\n===== 게시글 상세 내용 =====");
-				System.out.println("제목: " + selectedPost.getTitle());
-				System.out.println("작성자: " + selectedPost.getAuthor());
-				System.out.println("내용: " + selectedPost.getContent());
-				System.out.println("추천수: " + selectedPost.getUpvotes());
-				System.out.println("==========================");
-			} else {
-				System.out.println("잘못된 입력입니다.");
-			}
+			viewUserPosts();
+		}
+
+	}
+
+	private void viewAdminNotice() {
+		System.out.println("\n===== 공지사항 목록 =====");
+		List<AdminNotice> posts = postManager.getAllAdminNotices();
+		for (int i = 0; i < posts.size(); i++) {
+			AdminNotice post = posts.get(i);
+			System.out.println(post);
+		}
+		System.out.println("=======================");
+	}
+
+	private void viewUserPosts() {
+		System.out.println("\n===== 게시글 목록 =====");
+		List<UserPost> posts = postManager.getAllPosts();
+		for (int i = 0; i < posts.size(); i++) {
+			UserPost post = posts.get(i);
+			System.out.println((i + 1) + ". " + post.getTitle() + " (작성자: " + post.getAuthor() + ")" + " (추천수: "
+					+ post.getUpvotes() + ")");
+		}
+		System.out.println("=======================");
+	}
+
+	private void viewPost() {
+		List<UserPost> posts = postManager.getAllPosts();
+		int choice = inputNumber("상세 내용을 확인할 게시글 번호(0: 뒤로가기)");
+		if (choice != 0 && choice <= posts.size()) {
+			UserPost selectedPost = posts.get(choice - 1);
+			System.out.println("\n===== 게시글 상세 내용 =====");
+			System.out.println("제목: " + selectedPost.getTitle());
+			System.out.println("작성자: " + selectedPost.getAuthor());
+			System.out.println("내용: " + selectedPost.getContent());
+			System.out.println("추천수: " + selectedPost.getUpvotes());
+			System.out.println("==========================");
+		} else if (choice != 0) {
+			System.out.println("잘못된 입력입니다.");
 		}
 	}
 
@@ -339,21 +365,6 @@ public class Board {
 		}
 	}
 
-	private void sortPostsByUpvotes() {
-		System.out.println("\n===== 추천수로 게시글 정렬하기 =====");
-		List<UserPost> posts = postManager.getAllPosts();
-		Collections.sort(posts, (p1, p2) -> {
-			if (p1 instanceof UserPost && p2 instanceof UserPost) {
-				return ((UserPost) p2).getUpvotes() - ((UserPost) p1).getUpvotes();
-			} else {
-				return 0;
-			}
-		});
-		for (Post post : posts) {
-			System.out.println(post);
-		}
-	}
-
 	private void printMyPost() {
 		if (nowUser != null) {
 			List<Post> posts = postManager.getPostsByAuthor(nowUser);
@@ -427,11 +438,11 @@ public class Board {
 		System.out.println("\n===== 유저 밴 =====");
 		String userId = inputString("밴할 유저 ID");
 		if (userManager.checkUser(userId)) {
+			postManager.removeAllPost(userId);
 			userManager.removeUser(userId);
 			System.out.println(userId + "님이 밴되었습니다.");
 		} else {
 			System.out.println("해당 ID를 가진 유저가 존재하지 않습니다.");
 		}
 	}
-
 }
