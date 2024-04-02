@@ -12,7 +12,7 @@
 ![제목 없는 다이어그램](https://github.com/CHOI-YUN-SEUNG/NoticeBoard/assets/154594253/fe0fa14a-8e3e-44ea-8f60-4a964d536b2e)
 
 # 시연영상
-
+https://github.com/CHOI-YUN-SEUNG/NoticeBoard/blob/master/images/Desktop-2024.04.02-10.04.26.gif
 
 ## [프로그램 기능 소개]
 
